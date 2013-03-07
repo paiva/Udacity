@@ -37,7 +37,7 @@ def union(p,q):
         if e not in p:
             p.append(e)
 
-def getAllLinks(s):
+def getAllLinks(page):
         """Assumes that s is the seed page.
            Returns a list of all the links found on a page."""
 
