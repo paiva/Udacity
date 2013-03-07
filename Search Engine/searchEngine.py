@@ -63,13 +63,16 @@ def crawlWeb(s):
         tocrawl = [seed]
         crawled = []
 
+        #While there are more pages to crawl
         while tocrawl:
-                #Follows a Depth-first search approach
-                #Oder matters, should come up with better approach
-        
+         
+                #Picks last page. Follows a Depth-first search approach
                 page = tocrawl.pop()
 
                 #Tests if page was already crawled
                 if page not in crawled:
-
+                        #Adds all the link targets on this page to tocrawl
+                        union(tocrawl, getAllLinks(getPage(page)))
+                        #Adds the page to the list of crawled pages
+                        crawled.append(page)
         return crawled
