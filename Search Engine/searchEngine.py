@@ -39,8 +39,7 @@ def union(p,q):
 
 def getAllLinks(s):
         """Assumes that s is the seed page.
-           Returns a list of all the links found on a page.
-                """
+           Returns a list of all the links found on a page."""
 
         links = [] 
 
@@ -54,14 +53,14 @@ def getAllLinks(s):
                         break
         return links                
 
-def crawlWeb(s):
+def crawlWeb(seed,maxpages):
         """Assumes that s is the seed page url.
            Outputs a list of all the urls that can
            be reached by following links starting from
            the seed page"""
 
         tocrawl = [seed]
-        crawled = []
+        crawled = [] #len(crawled) is length of crawled
 
         #While there are more pages to crawl
         while tocrawl:
@@ -70,7 +69,7 @@ def crawlWeb(s):
                 page = tocrawl.pop()
 
                 #Tests if page was already crawled
-                if page not in crawled:
+                if page not in crawled and len(crawled) < maxpages:
                         #Adds all the link targets on this page to tocrawl
                         union(tocrawl, getAllLinks(getPage(page)))
                         #Adds the page to the list of crawled pages
