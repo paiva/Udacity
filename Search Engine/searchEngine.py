@@ -54,10 +54,11 @@ def getAllLinks(s):
         return links                
 
 def crawlWeb(seed,maxpages):
-        """Assumes that s is the seed page url.
-           Outputs a list of all the urls that can
-           be reached by following links starting from
-           the seed page"""
+        """Assumes that s is the seed page url. Maxpages is used
+           to stop crawling after we reach a certain amount of pages
+           since it follows a Depth-first search approach. Outputs
+           a list of all the URLs that can be reached by following
+           links starting from the seed page"""
 
         tocrawl = [seed]
         crawled = [] #len(crawled) is length of crawled
@@ -65,7 +66,7 @@ def crawlWeb(seed,maxpages):
         #While there are more pages to crawl
         while tocrawl:
          
-                #Picks last page. Follows a Depth-first search approach
+                #Picks last page.
                 page = tocrawl.pop()
 
                 #Tests if page was already crawled
