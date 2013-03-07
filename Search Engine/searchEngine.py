@@ -1,23 +1,15 @@
-# Project: Search Engine
+#
+# Project: Python Search Engine
 # Author: Santiago Paiva
 # Version 1.0
-
-#Extract Link function
-
-def printAllLinks(s):
-        while True: 
-                url, endpos = getNextTarget(s)
-                if url:
-                        print url
-                        s = s[endpos:]
-                else:
-                        break
-                        
+#--------------------------------------------------------------
 
 def getNextTarget(s):
+        """returns the url and the position of the enquote"""
+        
 	startLink = s.find('<a href=')
 
-        #Tests whether no link was found
+        #Tests if no link was found
 	if start_link == -1:
                 return None, 0 
         startQuote = s.find('"', startLink)
@@ -25,3 +17,18 @@ def getNextTarget(s):
         url = s[startQuote + 1 : endQuote ]
         return url, endQuote
 
+def getAllLinks(s):
+        """returns a list of all the links found on a page.
+                """
+
+        links = [] 
+
+        while True: 
+                url, endpos = getNextTarget(s)
+                if url:
+                        #Collect a list of URLs found
+                        links.append(url)
+                        s = s[endpos:]
+                else:
+                        break
+        return links                
