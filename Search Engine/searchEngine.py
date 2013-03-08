@@ -4,7 +4,17 @@
 # Version 1.0
 #------------------------------------------------------------------------
 
+def getPage(url):
+    """
+        Inputs a URL and ouputs the content of that URL
+    """
 
+    try:
+        import urllib
+        return urllib.urlopen(url).read()
+    except:
+        return ""
+    
 def getNextTarget(page):
     """
         Assummes that s is the seed page.
@@ -139,7 +149,7 @@ def addPagetoIndex(index,url,content):
 # Test functions
 #------------------------------------------------------------------------
 
-def getPage(url):   
+def test_getPage(url):   
     """ This is a simulated getPage procedure to test code on two pages
         "http://xkcd.com/353" and "http://xkcd.com/554".
     """
