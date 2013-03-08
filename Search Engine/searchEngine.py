@@ -25,12 +25,12 @@ def getNextTarget(page):
     startLink = page.find('<a href=')
 
     #Tests if no link was found
-        if startLink == -1:
-                return None, 0 
-        startQuote = page.find('"', startLink)
-        endQuote = page.find('"', startQuote + 1)
-        url = page[startQuote + 1 : endQuote ]
-        return url, endQuote
+    if startLink == -1:
+        return None, 0 
+    startQuote = page.find('"', startLink)
+    endQuote = page.find('"', startQuote + 1)
+    url = page[startQuote + 1 : endQuote ]
+    return url, endQuote
 
 def union(p,q):
     for e in q:
@@ -38,44 +38,46 @@ def union(p,q):
             p.append(e)
 
 def getAllLinks(page):
-        """Assumes that s is the seed page.
-           Returns a list of all the links found on a page."""
+    """Assumes that s is the seed page.
+       Returns a list of all the links found on a page."""
 
-        links = [] 
+    links = [] 
 
-        while True: 
-                url, endpos = getNextTarget(s)
-                if url:
-                        #Collect a list of URLs found
-                        links.append(url)
-                        s = s[endpos:]
-                else:
-                        break
-        return links                
+    while True: 
+        url, endpos = getNextTarget(s)
+
+        if url:
+            #Collect a list of URLs found
+            links.append(url)
+            s = s[endpos:]
+        else:
+            break
+    return links                
 
 def crawlWeb(seed,maxpages):
-        """Takes an input a seed page url. Maxpages is used
-           to stop crawling after we reach a certain amount of pages
-           since it follows a Depth-first search approach. Outputs
-           a list of all the URLs that can be reached by following
-           links starting from the seed page"""
+    """Takes an input a seed page url. Maxpages is used
+       to stop crawling after we reach a certain amount of pages
+       since it follows a Depth-first search approach. Outputs
+       a list of all the URLs that can be reached by following
+       links starting from the seed page"""
 
-        tocrawl = [seed]
-        crawled = [] #len(crawled) is length of crawled
+    tocrawl = [seed]
+    crawled = [] #len(crawled) is length of crawled
 
-        #While there are more pages to crawl
-        while tocrawl:
+    #While there are more pages to crawl
+    while tocrawl:
          
-                #Picks last page.
-                page = tocrawl.pop()
+        #Picks last page.
+        page = tocrawl.pop()
 
-                #Tests if page was already crawled
-                if page not in crawled and len(crawled) < maxpages:
-                        #Adds all the link targets on this page to tocrawl
-                        union(tocrawl, getAllLinks(getPage(page)))
-                        #Adds the page to the list of crawled pages
-                        crawled.append(page)
-        return crawled
+        #Tests if page was already crawled
+        if page not in crawled and len(crawled) < maxpages:
+
+            #Adds all the link targets on this page to tocrawl
+            union(tocrawl, getAllLinks(getPage(page)))
+            #Adds the page to the list of crawled pages
+            crawled.append(page)
+    return crawled
 
 def addToIndex(index,keyword,url):
     """Inputs:
@@ -84,16 +86,16 @@ def addToIndex(index,keyword,url):
      - a url: String
     """
 
-     # If the keyword is already in the index, add the URL to the
-     # list of URLs associated with that keyword
+    # If the keyword is already in the index, add the URL to the
+    # list of URLs associated with that keyword
      
     for entry in index:
          if entry[0] == keyword:
              entry[1].append(url)
              return
 
-     # If the keyword is not in the index, add an entry to the index:
-     # [keyword,[url]]
+    # If the keyword is not in the index, add an entry to the index:
+    # [keyword,[url]]
     index.append([keyword, [url]])
 
 def lookup(index,keyword):
