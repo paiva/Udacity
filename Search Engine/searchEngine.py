@@ -4,7 +4,7 @@
 # Version 1.0
 #--------------------------------------------------------------
 
-def getPage(url):
+def getPage(url):   
     # This is a simulated get_page procedure so that you can test your
     # code on two pages "http://xkcd.com/353" and "http://xkcd.com/554".
     # A procedure which actually grabs a page from the web will be 
@@ -19,13 +19,13 @@ def getPage(url):
     return ""
 
 def getNextTarget(page):
-        """Assummes that s is the seed page.
-           Returns the url and the position of the enquote"""
+    """Assummes that s is the seed page.
+       Returns the url and the position of the enquote"""
         
-	startLink = page.find('<a href=')
+    startLink = page.find('<a href=')
 
-        #Tests if no link was found
-	if startLink == -1:
+    #Tests if no link was found
+        if startLink == -1:
                 return None, 0 
         startQuote = page.find('"', startLink)
         endQuote = page.find('"', startQuote + 1)
@@ -54,7 +54,7 @@ def getAllLinks(page):
         return links                
 
 def crawlWeb(seed,maxpages):
-        """Assumes that s is the seed page url. Maxpages is used
+        """Takes an input a seed page url. Maxpages is used
            to stop crawling after we reach a certain amount of pages
            since it follows a Depth-first search approach. Outputs
            a list of all the URLs that can be reached by following
@@ -76,3 +76,66 @@ def crawlWeb(seed,maxpages):
                         #Adds the page to the list of crawled pages
                         crawled.append(page)
         return crawled
+
+def addToIndex(index,keyword,url):
+    """Inputs:
+     - an index: [[<keyword>,[<url1>,...,<urln>]],...]
+     - a keyword: String
+     - a url: String
+    """
+
+     # If the keyword is already in the index, add the URL to the
+     # list of URLs associated with that keyword
+     
+    for entry in index:
+         if entry[0] == keyword:
+             entry[1].append(url)
+             return
+
+     # If the keyword is not in the index, add an entry to the index:
+     # [keyword,[url]]
+    index.append([keyword, [url]])
+
+def lookup(index,keyword):
+    """Inputs:
+        - an index
+        - keyword
+        Outputs a list of the URLs associated with the keyword.
+        If the keyword is not in the index, the output should
+        an empty list """
+
+    for entry in index:
+        if entry[0] == keyword:
+            return entry[1]
+    return []
+
+#------------------------------------------------------------------------
+# Test functions
+#------------------------------------------------------------------------
+
+def test_addToIndex():
+    """ Should print:
+        [['udacity', ['http://udacity.com', 'http://npr.org']]
+         ['computing', ['http://acm.org']]]"""
+
+    index = []
+    addToIndex(index, 'udacity', 'http://udacity.com')
+    addToIndex(index, 'computing', 'http://acm.org')
+    addToIndex(index, 'udacity', 'http://npr.org')
+    print index
+
+def test_lookup():
+    """Should print:
+       ['http://udacity.com','http://npr.org']
+        """
+    index = [['udacity', ['http://udacity.com', 'http://npr.org']],
+         ['computing', ['http://acm.org']]]
+    
+    print lookup(index,'udacity')
+    
+
+
+
+
+
+    
