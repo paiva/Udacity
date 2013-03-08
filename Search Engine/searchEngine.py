@@ -61,7 +61,8 @@ def crawlWeb(seed,maxpages):
 
     tocrawl = [seed]
     crawled = [] #len(crawled) is length of crawled
-
+    index = []
+    
     #While there are more pages to crawl
     while tocrawl:
          
@@ -71,11 +72,13 @@ def crawlWeb(seed,maxpages):
         #Tests if page was already crawled
         if page not in crawled and len(crawled) < maxpages:
 
+            content = getPage(page)
             #Adds all the link targets on this page to tocrawl
-            union(tocrawl, getAllLinks(getPage(page)))
+            addPagetoIndex(index,page,content)
+            union(tocrawl, getAllLinks(content))
             #Adds the page to the list of crawled pages
             crawled.append(page)
-    return crawled
+    return index
 
 def addToIndex(index,keyword,url):
     """
@@ -121,8 +124,14 @@ def addPagetoIndex(index,url,content):
 
         Updates the index to include all of the word occurences
         found in the page content by adding the url to the word's
-        associated url list."""
+        associated url list.
+    """
 
+    words = content.split()
+
+    for word in words:
+        addToIndex(index,word,url)
+        
 
 
 
@@ -167,6 +176,7 @@ def test_lookup():
 def test_addPagetoIndex():
     index = []
     addPagetoIndex(index, 'fake.test',"this is a test")
+    addPagetoIndex(index, 'not.test',"this is not a test")
     print index
     print index[1]
 
