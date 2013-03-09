@@ -41,6 +41,30 @@ def union(p,q):
         if e not in p:
             p.append(e)
 
+def splitString(source,splitlist):
+    """
+        inputs: the string to split and a string containing
+        all of the characters considered separators. The
+        procedure should return a list of strings that break
+        the source string up by the characters in the
+        splitlist.
+    """
+    output = []
+    atsplit = True #At a split point
+
+    for char in source:
+        if char in splitlist:
+            atplist = true
+        else:
+            if atsplit:
+                output.append(char)
+                atsplit = False
+            else:
+                #add character to last word
+                output[-1] = output[-1] + char
+    return output
+                
+
 def getAllLinks(page):
     """
         Assumes that s is the seed page.
@@ -103,8 +127,10 @@ def addToIndex(index,keyword,url):
      
     for entry in index:
          if entry[0] == keyword:
-             entry[1].append(url)
-             return
+            #Prevents repeating the URL for given keyword
+             if not url in entry[1]:
+                 entry[1].append(url)
+                 return
 
     # If the keyword is not in the index, add an entry to the index:
     # [keyword,[url]]
