@@ -114,27 +114,35 @@ def crawlWeb(seed,maxpages):
             crawled.append(page)
     return index
 
+def recordUserClick(index, keyword, url):
+    urls = lookup(index, keyword)
+    if urls:
+        for entry in urls:
+            if entry[0] == url:
+                entry[1] = entry[1]+1
+
 def addToIndex(index,keyword,url):
     """
         Inputs:
-        - an index: [[<keyword>,[<url1>,...,<urln>]],...]
+        - an index: [[keyword,[[url,count],[url,count],...]],...]
         - a keyword: String
         - a url: String
     """
 
     # If the keyword is already in the index, add the URL to the
     # list of URLs associated with that keyword
-     
+   
     for entry in index:
-         if entry[0] == keyword:
-            #Prevents repeating the URL for given keyword
-             if not url in entry[1]:
-                 entry[1].append(url)
-                 return
+        if entry[0] == keyword:
+            for urls in entry[1]:
+                if urls[0] == url:
+                    return
+            entry[1].append([url,0])
+            Return
 
     # If the keyword is not in the index, add an entry to the index:
-    # [keyword,[url]]
-    index.append([keyword, [url]])
+    # [keyword,[url,count]]
+    index.append([keyword, [[url,0]]])
 
 def lookup(index,keyword):
     """
