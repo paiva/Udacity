@@ -67,7 +67,7 @@ def splitString(source,splitlist):
 
 def getAllLinks(page):
     """
-        Assumes that s is the seed page.
+        Takes seed page url as an input.
         Returns a list of all the links found on a page.
     """
 
@@ -86,7 +86,7 @@ def getAllLinks(page):
 
 def crawlWeb(seed,maxpages):
     """
-        Takes an input a seed page url. Maxpages is used
+        Takes seed page url as an input. Maxpages is used
         to stop crawling after we reach a certain amount of pages
         since it follows a Depth-first search approach. Outputs
         a list of all the URLs that can be reached by following
@@ -161,7 +161,8 @@ def lookup(index,keyword):
     return []
 
 def addPagetoIndex(index,url,content):
-    """ Inputs:
+    """
+        Inputs:
         -Index
         -URL (string)
         -Content (string)
