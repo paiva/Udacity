@@ -178,7 +178,19 @@ def addPagetoIndex(index,url,content):
         addToIndex(index,word,url)
         
 
+def hashString(keyword,buckets):
+    """
+        Inputs:
+        -Keyword (String)
+        -Number of Buckets
 
+        Outputs a number representing the bucket for that
+        keyword
+    """
+    h = 0
+    for c in keyword:
+        h = (h + ord(c)) % buckets
+    return h 
 
 #------------------------------------------------------------------------
 # Test functions
@@ -226,4 +238,12 @@ def test_addPagetoIndex():
     print index[1]
 
 
-    
+def test_hashFunction(func,keys,size):
+    results = [0]*size
+    keys_used = []
+    for w in keys:
+        if w not in keys_used:
+            hv = func(w,size)
+            results[hv] += 1
+            keys_used.append(w)
+    return results

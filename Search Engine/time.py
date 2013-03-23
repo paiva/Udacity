@@ -14,7 +14,7 @@ def timeExecution(code):
 
 
 #-------------------------------------------------------------
-# Test functions
+# Test function
 #-------------------------------------------------------------
 
 def spinLoop(n):
@@ -23,6 +23,7 @@ def spinLoop(n):
         i = i + 1
 
 
-def test_timeExecution():
-    timeExecution('spinLoop(100)')
-    
+print timeExecution('spinLoop(1000)')[1]
+print timeExecution('spinLoop(10 ** 9)')[1]
+
+
