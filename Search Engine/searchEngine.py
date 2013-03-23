@@ -192,6 +192,18 @@ def hashString(keyword,buckets):
         h = (h + ord(c)) % buckets
     return h 
 
+def makeHashTable(nbuckets):
+    """
+        Input:
+        - A number (number of buckets)
+
+        Outputs an empty hash table with nbuckets empty buckets
+    """
+    table = []
+    for i in range(0, nbuckets):
+        table.append([])
+        
+    return table
 #------------------------------------------------------------------------
 # Test functions
 #------------------------------------------------------------------------
