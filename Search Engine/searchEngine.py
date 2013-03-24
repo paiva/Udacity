@@ -180,12 +180,7 @@ def addPagetoIndex(index,url,content):
 
 def hashString(keyword,buckets):
     """
-        Inputs:
-        -Keyword (String)
-        -Number of Buckets
-
-        Outputs a number representing the bucket for that
-        keyword
+        Returns a number representing the bucket for that keyword
     """
     h = 0
     for c in keyword:
@@ -194,16 +189,36 @@ def hashString(keyword,buckets):
 
 def makeHashTable(nbuckets):
     """
-        Input:
-        - A number (number of buckets)
-
         Outputs an empty hash table with nbuckets empty buckets
     """
     table = []
     for i in range(0, nbuckets):
-        table.append([])
-        
+        table.append([])        
     return table
+
+def getBucket(hashtable, keyword):
+    """
+        Ouputs the bucket where the keyword could occur
+    """
+    return hashtable[hashString(keyword,len(hashtable))]
+
+def addHashTable(hashtable,keyword,value):
+    """
+        Adds the key to the hashtable (in the correct bucket), with
+        the associated value
+    """
+    getBucket(hashtable,keyword).append([keyword,value])
+
+def lookupHashTable(hashtable,keyword):
+    """
+        Returns the value associated with that keyword
+    """
+    bucket = getBucket(hashtable, keyword)
+    for entry in bucket:
+        if entry[0] == keyword:
+            return e[1]
+    return None
+    
 #------------------------------------------------------------------------
 # Test functions
 #------------------------------------------------------------------------
