@@ -91,11 +91,15 @@ def crawlWeb(seed,maxpages):
         since it follows a Depth-first search approach. Outputs
         a list of all the URLs that can be reached by following
         links starting from the seed page
+
+        Returns an index and a graph. The graph should be a
+        Dictionary where the entries are url(page):[url,url,...]
     """
 
     tocrawl = [seed]
     crawled = [] #len(crawled) is length of crawled
     index = {}
+    graph = {}
     
     #While there are more pages to crawl
     while tocrawl:
@@ -109,10 +113,48 @@ def crawlWeb(seed,maxpages):
             content = getPage(page)
             #Adds all the link targets on this page to tocrawl
             addPagetoIndex(index,page,content)
-            union(tocrawl, getAllLinks(content))
+            outlinks = getAllLinks(content)
+            graph[page] = outlinks
+            union(tocrawl, outlinks)
             #Adds the page to the list of crawled pages
             crawled.append(page)
-    return index
+    return index, graph
+
+def computeRanks(graph):
+    d = 0.8 #Damping Factor
+
+    numloops = 10
+
+    ranks ={}
+    npages = len(graph)
+    for page in graph:
+        ranks[page] = 1.0/npages
+        
+    for i in range(0,numloops):
+        newranks = {}
+        for page in graph:
+            newrank = (1-d)/npages
+
+            #Update by summing in the inlink ranks
+            for node in graph:
+                if page in graph[node]:
+                    newrank = newrank + d*(ranks[node] / len(graph)) 
+        newranks[page] = newrank
+        ranks = newranks
+    return ranks
+
+def luckySearch(index,ranks,keyword):
+    """
+        Returns the Highest rating page with keyword
+    """
+    pages = lookup(index,keyword)
+    if not pages:
+        return None
+    bestpage = pages[0]
+    for candidate in pages:
+        if ranks[candidate] > ranks[bestpage]:
+            bestpage = candidate
+    return bestpage
 
 def recordUserClick(index, keyword, url):
     urls = lookup(index, keyword)
