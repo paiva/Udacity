@@ -95,7 +95,7 @@ def crawlWeb(seed,maxpages):
 
     tocrawl = [seed]
     crawled = [] #len(crawled) is length of crawled
-    index = []
+    index = {}
     
     #While there are more pages to crawl
     while tocrawl:
@@ -129,21 +129,12 @@ def addToIndex(index,keyword,url):
         - a url: String
     """
 
-    # If the keyword is already in the index, add the URL to the
-    # list of URLs associated with that keyword
-   
-    for entry in index:
-        if entry[0] == keyword:
-            for urls in entry[1]:
-                if urls[0] == url:
-                    return
-            entry[1].append([url,0])
-            Return
+    if keyword in index:
+        index[keyword].append(url)
+    else:
+        index[keyword] = [url]
 
-    # If the keyword is not in the index, add an entry to the index:
-    # [keyword,[url,count]]
-    index.append([keyword, [[url,0]]])
-
+        
 def lookup(index,keyword):
     """
         Inputs:
@@ -154,12 +145,12 @@ def lookup(index,keyword):
         If the keyword is not in the index, the output should
         an empty list
     """
+    
+    if keyword in index:
+        return index[keyword]
+    return None
 
-    for entry in index:
-        if entry[0] == keyword:
-            return entry[1]
-    return []
-
+   
 def addPagetoIndex(index,url,content):
     """
         Inputs:
@@ -216,9 +207,24 @@ def lookupHashTable(hashtable,keyword):
     bucket = getBucket(hashtable, keyword)
     for entry in bucket:
         if entry[0] == keyword:
-            return e[1]
+            return entry[1]
     return None
     
+def updateHashTable(hashtable,keyword,value):
+    """
+        Updates the value associated with the keyword. If key
+        is already in the table, change the value to the new
+        value. Otherwise, add a new entry for the key and value
+    """
+    bucket = getBucket(hashtable, keyword)
+    for entry in bucket:
+        if entry[0] == keyword:
+            entry[1] = value
+            return
+    bucket.append([key,value])
+
+
+
 #------------------------------------------------------------------------
 # Test functions
 #------------------------------------------------------------------------
