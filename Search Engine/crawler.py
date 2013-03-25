@@ -5,6 +5,8 @@
 # File: crawler.py
 #------------------------------------------------------------------------
 
+from bs4 import BeautifulSoup
+
 def getPage(url):
     """
         Inputs a URL and ouputs the content of that URL
@@ -16,22 +18,51 @@ def getPage(url):
     except:
         return ""
     
-def getNextTarget(page):
+def getAllLinks(page):
     """
-        Assummes that s is the seed page.
-        Returns the url and the position of the enquote.
+        Implements BeautifulSoup module.
+        Returns all links
     """
-        
-    startLink = page.find('<a href=')
+    soup = BeautifulSoup(page)
+    links = []
+    for link in soup.find_all('a'):
+        links.append(link.get('href'))
+    return links
 
-    #Tests if no link was found
-    if startLink == -1:
-        return None, 0 
-    startQuote = page.find('"', startLink)
-    endQuote = page.find('"', startQuote + 1)
-    url = page[startQuote + 1 : endQuote ]
-    return url, endQuote
+##def getNextTarget(page):
+##    """
+##        Assummes that s is the seed page.
+##        Returns the url and the position of the enquote.
+##    """
+##        
+##    startLink = page.find('<a href=')
+##
+##    #Tests if no link was found
+##    if startLink == -1:
+##        return None, 0 
+##    startQuote = page.find('"', startLink)
+##    endQuote = page.find('"', startQuote + 1)
+##    url = page[startQuote + 1 : endQuote ]
+##    return url, endQuote
 
+##def getAllLinks(page):
+##    """
+##        Takes seed page url as an input.
+##        Returns a list of all the links found on a page.
+##    """
+##
+##    links = [] 
+##
+##    while True: 
+##        url, endpos = getNextTarget(s)
+##
+##        if url:
+##            #Collect a list of URLs found
+##            links.append(url)
+##            s = s[endpos:]
+##        else:
+##            break
+##    return links     
 
 def splitString(source,splitlist):
     """
@@ -57,24 +88,7 @@ def splitString(source,splitlist):
     return output
                 
 
-def getAllLinks(page):
-    """
-        Takes seed page url as an input.
-        Returns a list of all the links found on a page.
-    """
-
-    links = [] 
-
-    while True: 
-        url, endpos = getNextTarget(s)
-
-        if url:
-            #Collect a list of URLs found
-            links.append(url)
-            s = s[endpos:]
-        else:
-            break
-    return links                
+           
 
 def addPagetoIndex(index,url,content):
     """
