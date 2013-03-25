@@ -31,15 +31,6 @@ def getNextTarget(page):
     url = page[startQuote + 1 : endQuote ]
     return url, endQuote
 
-def union(p,q):
-    """
-        Takes two input lists (p,q) and meges unrepeated elements
-        of q into p 
-    """
-    
-    for e in q:
-        if e not in p:
-            p.append(e)
 
 def splitString(source,splitlist):
     """
@@ -96,8 +87,8 @@ def crawlWeb(seed,maxpages):
         Dictionary where the entries are url(page):[url,url,...]
     """
 
-    tocrawl = [seed]
-    crawled = [] #len(crawled) is length of crawled
+    tocrawl = set([seed])
+    crawled = set() #len(crawled) is length of crawled
     index = {}
     graph = {}
     
@@ -115,9 +106,9 @@ def crawlWeb(seed,maxpages):
             addPagetoIndex(index,page,content)
             outlinks = getAllLinks(content)
             graph[page] = outlinks
-            union(tocrawl, outlinks)
+            tocrawl.update(outlinks)
             #Adds the page to the list of crawled pages
-            crawled.append(page)
+            crawled.add(page)
     return index, graph
 
 def computeRanks(graph):
