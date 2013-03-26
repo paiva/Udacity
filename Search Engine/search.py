@@ -5,6 +5,7 @@
 # File: search.py
 #------------------------------------------------------------------------
 
+
 def lookup(index,keyword):
     """
         Inputs:
@@ -127,7 +128,6 @@ def test_getPage(url):
     except:
         return ""
     return ""
-
 
 def test_addToIndex():
     """ Should print:
