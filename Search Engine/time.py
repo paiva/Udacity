@@ -1,6 +1,5 @@
 #--------------------------------------------------------------
 # Script: Calculates the amount of time a procedure takes
-# Author: Santiago Paiva
 # Version: 1.0
 #--------------------------------------------------------------
 
